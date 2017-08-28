@@ -32,10 +32,9 @@ module Bosh::Director
         })
       end
 
-      it 'changes the foreign key to cloud_config_id' do
+      it 'changes the foreign key of cloud_config_id' do
         DBSpecHelper.migrate(migration_file)
 
-        expect(db[:deployments].columns.include?(:cloud_config_old_id)).to be_truthy
         expect(db.foreign_key_list(:deployments).size).to eq(1)
         expect(db.foreign_key_list(:deployments).first).to include(
           columns: [:cloud_config_id],
