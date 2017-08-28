@@ -119,7 +119,7 @@
   "20170803163303_register_known_az_names": "51ab548d8187c75a1a7dff34861f658dfc11dae9",
   "20170804191205_add_deployment_and_errand_name_to_errand_runs": "4429f1e811e064c236ee4c32b3964992ec7004e5",
   "20170815175515_change_variable_ids_to_bigint": "0488ede3a8d8611f8414e6a9c4f54ec9828a3bff",
-  "20170821141953_remove_unused_credentials_json_columns": "0daf4d1363029304fc84d0df7b7b69fa04713e37"
-  "20170821144941_add_configs": "fee5694b4725e6751687f78c6e22657931aa46e3",
+  "20170821141953_remove_unused_credentials_json_columns": "0daf4d1363029304fc84d0df7b7b69fa04713e37",
+  "20170821144941_add_configs": "995accbe4a05785e1808e26fc9775aaa5b0a524e",
   "20170822141342_remove_cloud_configs_table": "4ce6fa6d439378746dc3363655f3da9982717d3e"
 }
