@@ -18,6 +18,7 @@
 3. Setup & Start mysql (required for running integration tests with mysql)
     - start mysql as root
     - create mysql user: root/password
+      i.e.: `alter user 'root'@'localhost' identified by 'password';`
 
 4. Install postgresql (needed by the pg gem)
 

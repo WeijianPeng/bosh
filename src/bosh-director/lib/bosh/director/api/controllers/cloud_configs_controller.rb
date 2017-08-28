@@ -36,7 +36,7 @@ module Bosh::Director
         json_encode(
           cloud_configs.map do |cloud_config|
             {
-              "properties" => cloud_config.properties,
+              "properties" => cloud_config.content,
               "created_at" => cloud_config.created_at,
             }
         end

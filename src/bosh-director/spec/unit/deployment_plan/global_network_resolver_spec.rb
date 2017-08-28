@@ -35,7 +35,7 @@ module Bosh::Director
       describe 'when initialized with director ips' do
         let(:director_ips) { ['192.168.1.11', '10.10.0.4'] }
         describe 'when using global networking' do
-          let(:cloud_config) { Models::CloudConfig.make }
+          let(:cloud_config) { Models::Config.make(:cloud) }
 
           it 'returns the director IPs as ranges' do
             expect(global_network_resolver.reserved_ranges).to contain_exactly(
@@ -55,7 +55,7 @@ module Bosh::Director
 
       context 'when deploying with cloud config after legacy deployments' do
         let(:cloud_config) do
-          Models::CloudConfig.make({
+          Models::Config.make(:cloud, {
             raw_manifest: {
               'networks' => [{
                 'name' => 'manual',
@@ -137,7 +137,7 @@ module Bosh::Director
       end
 
       context 'when current deployment is using cloud config' do
-        let(:cloud_config) { Models::CloudConfig.make }
+        let(:cloud_config) { Models::Config.make(:cloud) }
 
         it 'excludes networks from deployments with cloud config' do
           Models::Deployment.make(

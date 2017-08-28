@@ -33,7 +33,7 @@ module Bosh::Director
         YAML.dump(manifest_with_errand_hash(deployment_name))
       end
 
-      let(:cloud_config) { Models::CloudConfig.make }
+      let(:cloud_config) { Models::Config.make(:cloud_with_manifest) }
       let (:time) {Time.now}
       before do
         App.new(config)
@@ -115,11 +115,11 @@ module Bosh::Director
 
             context 'when provided a cloud config and runtime config context to work within' do
               it 'should use the provided context instead of using the latest runtime and cloud config' do
-                cloud_config = Models::CloudConfig.make
+                cloud_config = Models::Config.make(:cloud_with_manifest)
                 runtime_config_1 = Models::RuntimeConfig.make
                 runtime_config_2 = Models::RuntimeConfig.make
 
-                Models::CloudConfig.make
+                Models::Config.make(:cloud_with_manifest)
                 Models::RuntimeConfig.make
 
                 deployment_context = [['context', JSON.dump({'cloud_config_id' => 1, 'runtime_config_ids' => [runtime_config_1.id, runtime_config_2.id]})]]
@@ -137,7 +137,7 @@ module Bosh::Director
 
             context 'when using cloud config and runtime config' do
               it 'should persist these relations when persisting the deployment' do
-                cloud_config = Models::CloudConfig.make
+                cloud_config = Models::Config.make(:cloud_with_manifest)
                 runtime_config = Models::RuntimeConfig.make
 
                 post '/', spec_asset('test_conf.yaml'), {'CONTENT_TYPE' => 'text/yaml'}
@@ -587,8 +587,8 @@ module Bosh::Director
             stemcell_1_2 = Models::Stemcell.create(name: 'stemcell-1', version: 2, cid: 123)
             stemcell_2_1 = Models::Stemcell.create(name: 'stemcell-2', version: 1, cid: 124)
 
-            old_cloud_config = Models::CloudConfig.make(raw_manifest: {}, created_at: Time.now - 60)
-            new_cloud_config = Models::CloudConfig.make(raw_manifest: {})
+            old_cloud_config = Models::Config.make(:cloud, raw_manifest: {}, created_at: Time.now - 60)
+            new_cloud_config = Models::Config.make(:cloud, raw_manifest: {})
 
             good_team = Models::Team.create(name: 'dabest')
             bad_team = Models::Team.create(name: 'daworst')
@@ -1489,7 +1489,7 @@ module Bosh::Director
               { 'CONTENT_TYPE' => 'text/yaml' },
             )
           end
-          let(:cloud_config) { Models::CloudConfig.make(raw_manifest: {'azs' => []}) }
+          let(:cloud_config) { Models::Config.make(:cloud, raw_manifest: {'azs' => []}) }
           let(:runtime_config_1) { Models::RuntimeConfig.make(id: 1, raw_manifest: {'addons' => []}) }
           let(:runtime_config_2) { Models::RuntimeConfig.make(id: 2, raw_manifest: {'addons' => []}) }
           let(:runtime_config_3) { Models::RuntimeConfig.make(id: 3, raw_manifest: {'addons' => []}, name: 'smurf') }
@@ -1549,7 +1549,7 @@ module Bosh::Director
                   cloud_config: nil
                 )
 
-                Models::CloudConfig.make(raw_manifest: {'networks'=>[{'name'=>'very-cloudy-network'}]})
+                Models::Config.make(:cloud, raw_manifest: {'networks'=>[{'name'=>'very-cloudy-network'}]})
 
                 manifest_hash['networks'] = [{'name'=> 'network2'}]
                 diff = post '/fake-dep-name-no-cloud-conf/diff', YAML.dump(manifest_hash), {'CONTENT_TYPE' => 'text/yaml'}

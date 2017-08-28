@@ -27,7 +27,7 @@ module Bosh::Director
       let!(:stemcell) { Models::Stemcell.make(name: 'ubuntu-stemcell', version: '1') }
       let!(:cloud_config) {
         if prior_az_name.nil?
-          Models::CloudConfig.make(raw_manifest: Bosh::Spec::Deployments.simple_cloud_config)
+          Models::Config.make(:cloud_with_manifest)
         else
           raw_manifest = Bosh::Spec::Deployments.simple_cloud_config.merge({
             'azs' => [
@@ -40,7 +40,7 @@ module Bosh::Director
           raw_manifest['networks'][0]['subnets'][0]['azs'] = [prior_az_name]
           raw_manifest['compilation']['az'] = prior_az_name
 
-          Models::CloudConfig.make(raw_manifest: raw_manifest)
+          Models::Config.make(:cloud, raw_manifest: raw_manifest)
         end
       }
       let(:prior_az_name) { 'z2' }

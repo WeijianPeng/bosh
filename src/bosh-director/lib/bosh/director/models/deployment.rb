@@ -6,7 +6,7 @@ module Bosh::Director::Models
     one_to_many  :instances
     one_to_many  :properties, :class => "Bosh::Director::Models::DeploymentProperty"
     one_to_many  :problems, :class => "Bosh::Director::Models::DeploymentProblem"
-    many_to_one  :cloud_config
+    many_to_one  :cloud_config, :class => "Bosh::Director::Models::Config", :key => :cloud_config_id, :conditions => {:type => 'cloud'}
     many_to_many :runtime_configs
     many_to_many :teams
     one_to_many  :variable_sets, :class => 'Bosh::Director::Models::VariableSet'

@@ -201,6 +201,19 @@ tags:
       end
     end
 
+    describe '#cloud_config' do
+      it 'adds wrong model to config association, but does not return it' do
+         config = Bosh::Director::Models::Config.make(type: 'runtime', name: 'default')
+         deployment = Bosh::Director::Models::Deployment.make(name: 'fake-deployment')
+         deployment.cloud_config = config
+         expect {
+            deployment.save
+         }.not_to raise_error
+         deployment.reload
+         expect(deployment.cloud_config).to be_nil
+      end
+    end
+
     describe '#runtime_configs=' do
       let(:manifest) { '---{}' }
 
